@@ -4,7 +4,7 @@ $( "#update" ).click(function( event ) {
     type: 'put',
     data: form.serialize(),
     success: function(result) {
-        window.location.replace("/users/");
+        window.location.replace("/groups/");
     },
     error: function (err) {
       alert(err.responseText);
@@ -17,7 +17,7 @@ function deleteUser(id) {
   $.ajax({
     type: 'delete',
     success: function(result) {
-        window.location.replace("/users/");
+        window.location.replace("/groups/");
     },
     error: function (err) {
       alert(err.responseText);
