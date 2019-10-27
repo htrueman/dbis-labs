@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Users</h1>
+    {% from "formhelpers.html" import render_field %}
+    <form id="form">
+      <dl>
+        {% for field in form %}
+          {{ render_field(field) }}
+        {% endfor %}
+      </dl>
+      <p>
+        <input type="button" id="update" value="Update user">
+    </form>
+    <br>
+    <input type="button" onclick="deleteUser({{ user.id }})" value="Delete user">
+
+  </div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='js/user_crud.js')}}"></script>
+{% endblock %}

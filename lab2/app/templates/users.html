@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mt-4">Users</h1>
+  {% from "formhelpers.html" import render_field %}
+  <form method="post" action="/users/">
+    <dl>
+      {% for field in form %}
+        {{ render_field(field) }}
+      {% endfor %}
+    </dl>
+    <p><input type="submit" value="Create user">
+  </form>
+  <br>
+  <br>
+  {% for key, value in users.items() %}
+    <p><a href="/users/{{ key }}/">{{ value }}</a></p>
+  {% endfor %}
+</div>
+{% endblock %}
