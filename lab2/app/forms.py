@@ -1,5 +1,5 @@
 from wtforms_alchemy import ModelForm
-from .db_models import User, Group
+from .db_models import User, Group, Lecture
 
 
 class UserForm(ModelForm):
@@ -10,3 +10,8 @@ class UserForm(ModelForm):
 class GroupForm(ModelForm):
     class Meta:
         model = Group
+
+
+class LectureForm(ModelForm):
+    class Meta:
+        model = Lecture

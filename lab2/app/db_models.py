@@ -1,10 +1,11 @@
+import os
+
 import sqlalchemy as sa
 from sqlalchemy import create_engine, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy_utils import ArrowType
 
-engine = create_engine('postgresql://localhost:5432/dbis')
+engine = create_engine(os.environ['DATABASE_URL'])
 Base = declarative_base(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -31,6 +32,7 @@ class LecturePack(Base):
 
     pack_name = sa.Column(sa.Unicode(150), primary_key=True)
     description = sa.Column(sa.Unicode(150), nullable=False)
+
 
 class Lecture(Base):
     __tablename__ = 'lectures'

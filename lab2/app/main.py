@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from flask_bootstrap import Bootstrap
 
-from .forms import UserForm, GroupForm
-from .db_models import User, session, Group
+from .forms import UserForm, GroupForm, LectureForm
+from .db_models import User, session, Group, Lecture
 
 
 def create_app():
@@ -13,20 +13,6 @@ def create_app():
 
 
 app = create_app()
-
-
-# @app.route('/api/<action>', methods=['GET'])
-# def apiGet(action):
-#     if action == "number":
-#         if 'number' not in session.keys():
-#             number = ''
-#         else:
-#             number = session['number']
-#         if not number:
-#             number = request.cookies.get('number') if request.cookies.get('number') else ''
-#         return render_template("number.html", number=number)
-#     else:
-#         return render_template("404.html")
 
 
 @app.route('/', methods=['get'])
@@ -111,3 +97,42 @@ def group(name):
         session.commit()
 
     return render_template(template_name, group=group, form=form)
+
+
+@app.route('/lectures/', methods=['get', 'post'])
+def lectures():
+    if request.method == 'GET':
+        form = LectureForm()
+        return render_template('lectures.html', form=form, lectures={l.lecture_id: l.version for l in session.query(Lecture).all()})
+    else:
+        lecture = Lecture()
+        form = LectureForm(request.form)
+        if form.validate():
+            form.populate_obj(lecture)
+            session.add(lecture)
+            session.commit()
+        return render_template(
+            'lectures.html',
+            lectures={l.lecture_id: l.version for l in session.query(Lecture).all()},
+            form=form
+        )
+
+
+@app.route('/lectures/<lecture_id>/', methods=['get', 'put', 'delete'])
+def lecture(lecture_id):
+    lecture = session.query(Lecture).filter_by(lecture_id=lecture_id).first()
+    form = LectureForm(request.form, lecture)
+    template_name = 'lecture.html'
+
+    if request.method == 'PUT':
+        if form.validate():
+            form.populate_obj(lecture)
+            session.add(lecture)
+            session.commit()
+        else:
+            return jsonify(form.errors), 400
+    elif request.method == 'DELETE':
+        session.delete(lecture)
+        session.commit()
+
+    return render_template(template_name, lecture=lecture, form=form)
