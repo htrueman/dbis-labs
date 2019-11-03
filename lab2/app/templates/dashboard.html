@@ -1,9 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Page Content -->
-<div class="container">
-  <h1 class="mt-4">Lecture VCS</h1>
-</div>
-<!-- /.container -->
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+
+  <div class="container">
+    <h1 class="mt-4">Lecture VCS</h1>
+  </div>
+
+  <!-- Create a div where the graph will take place -->
+  <div id="my_dataviz" style="margin-left: 40px;"></div>
+  <div id="my_dataviz1" style="margin-left: 40px;"></div>
+
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{url_for('.static', filename='js/jquery.slim.min.js')}}"></script>
+  <script src="{{url_for('.static', filename='js/plots.js')}}"></script>
 {% endblock %}

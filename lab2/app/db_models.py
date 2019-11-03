@@ -24,7 +24,8 @@ class User(Base):
 class Group(Base):
     __tablename__ = 'groups'
 
-    name = sa.Column(sa.Unicode(6), primary_key=True)
+    group_id = sa.Column(sa.BigInteger, autoincrement=True, primary_key=True)
+    name = sa.Column(sa.Unicode(6), nullable=False)
 
 
 class LecturePack(Base):
@@ -44,3 +45,15 @@ class Lecture(Base):
     pack_name = sa.Column(sa.Unicode(250), ForeignKey('lecture_packs.pack_name'), nullable=True)
     lecture_id = sa.Column(sa.BigInteger, autoincrement=True, primary_key=True)
     prev_lecture_id = sa.Column(sa.BigInteger, ForeignKey('lectures.lecture_id'), nullable=True)
+
+
+class LectureActivity(Base):
+    __tablename__ = 'lecture_activity'
+
+    view_count = sa.Column(sa.Integer, nullable=False, default=0)
+    like_count = sa.Column(sa.Integer, nullable=False, default=0)
+    comment_count = sa.Column(sa.Integer, nullable=False, default=0)
+    grade = sa.Column(sa.Integer, nullable=False, default=0)
+    student_id = sa.Column(sa.BigInteger, ForeignKey('users.user_id'), nullable=False)
+    lecture_id = sa.Column(sa.BigInteger, ForeignKey('lectures.lecture_id'), nullable=False)
+    lecture_activity_id = sa.Column(sa.BigInteger, autoincrement=True, primary_key=True)

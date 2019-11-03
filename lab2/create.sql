@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS groups (
- name varchar(6) primary key
+ group_id integer primary key,
+ name varchar(6)
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -8,9 +9,9 @@ CREATE TABLE IF NOT EXISTS users (
  date_registered date,
 
  user_id SERIAL PRIMARY KEY,
- group_name varchar(6),
+ group_id integer,
 
- FOREIGN KEY (group_name) REFERENCES groups(name)
+ FOREIGN KEY (group_id) REFERENCES groups(group_id)
 );
 
 CREATE TABLE IF NOT EXISTS lecture_packs (
@@ -50,6 +51,7 @@ CREATE TABLE IF NOT EXISTS lecture_activity (
     view_count int,
     like_count int,
     comment_count int,
+    grade int,
     student_id int,
     lecture_id int,
     lecture_activity_id int,
@@ -69,11 +71,11 @@ CREATE TABLE IF NOT EXISTS subjects (
 );
 
 CREATE TABLE IF NOT EXISTS group_subjects (
- group_name varchar(6),
+ group_id integer,
  subject_name varchar(150),
 
- PRIMARY KEY (group_name, subject_name),
- FOREIGN KEY (group_name) REFERENCES groups(name),
+ PRIMARY KEY (group_id, subject_name),
+ FOREIGN KEY (group_id) REFERENCES groups(group_id),
  FOREIGN KEY (subject_name) REFERENCES subjects(name)
 );
 

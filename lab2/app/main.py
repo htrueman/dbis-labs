@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, jsonify
+import csv
+
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_bootstrap import Bootstrap
 
 from .forms import UserForm, GroupForm, LectureForm
-from .db_models import User, session, Group, Lecture
+from .db_models import User, session, Group, Lecture, LectureActivity
 
 
 def create_app():
@@ -136,3 +138,35 @@ def lecture(lecture_id):
         session.commit()
 
     return render_template(template_name, lecture=lecture, form=form)
+
+
+@app.route('/plots/', methods=['get'])
+def get_plot_data_file():
+    activities = session.query(LectureActivity).all()
+
+    with open('app/static/csv/plot1.csv', mode='w+') as p:
+        p_writer = csv.writer(p, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        p_writer.writerow(['activities_count', 'grade'])
+        for activity in activities:
+            p_writer.writerow([activity.comment_count + activity.view_count + activity.like_count, activity.grade])
+
+    with open('app/static/csv/plot2.csv', mode='w+') as p:
+        p_writer = csv.writer(p, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        p_writer.writerow(['student_id', 'grade'])
+        for activity in activities:
+            user_activities = session.query(LectureActivity).filter_by(student_id=activity.student_id)
+            activities_count = 0
+            grade_sum = 0
+            avg_grade = 0
+            for a in user_activities:
+                activities_count += 1
+                grade_sum += a.grade
+
+            if activities_count > 0:
+                avg_grade = grade_sum / activities_count
+
+            p_writer.writerow([activity.student_id, avg_grade])
+
+    return jsonify()

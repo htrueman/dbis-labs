@@ -1,13 +1,13 @@
-INSERT INTO groups (name) VALUES ('KM-61');
-INSERT INTO groups (name) VALUES ('KM-62');
-INSERT INTO groups (name) VALUES ('KM-63');
+INSERT INTO groups (name, group_id) VALUES ('KM-61', 1);
+INSERT INTO groups (name, group_id) VALUES ('KM-62', 2);
+INSERT INTO groups (name, group_id) VALUES ('KM-63', 3);
 
 SELECT * FROM groups;
 
 
-INSERT INTO users (full_name, type, user_id, date_registered, group_name) VALUES ('Test User1', 'student', 1, '2019-11-10', 'KM-61');
-INSERT INTO users (full_name, type, user_id, date_registered, group_name) VALUES ('Test User2', 'student', 2, '2019-11-11', 'KM-62');
-INSERT INTO users (full_name, type, user_id, date_registered, group_name) VALUES ('Test User3', 'teacher', 3, '2019-11-12', 'KM-63');
+INSERT INTO users (full_name, type, user_id, date_registered, group_id) VALUES ('Test User1', 'student', 1, '2019-11-10', 1);
+INSERT INTO users (full_name, type, user_id, date_registered, group_id) VALUES ('Test User2', 'student', 2, '2019-11-11', 2);
+INSERT INTO users (full_name, type, user_id, date_registered, group_id) VALUES ('Test User3', 'teacher', 3, '2019-11-12', 3);
 
 SELECT * FROM users;
 
@@ -32,9 +32,9 @@ INSERT INTO lecture_comment (text, datetime, likes, lecture_id, user_id) VALUES 
 SELECT * FROM lecture_comment;
 
 
-INSERT INTO lecture_activity (view_count, like_count, comment_count, student_id, lecture_id, lecture_activity_id) VALUES (1, 1, 1, 1, 1, 1);
-INSERT INTO lecture_activity (view_count, like_count, comment_count, student_id, lecture_id, lecture_activity_id) VALUES (2, 2, 2, 2, 2, 2);
-INSERT INTO lecture_activity (view_count, like_count, comment_count, student_id, lecture_id, lecture_activity_id) VALUES (3, 3, 3, 3, 3, 3);
+INSERT INTO lecture_activity (view_count, like_count, comment_count, student_id, lecture_id, lecture_activity_id, grade) VALUES (1, 1, 1, 1, 1, 1, 60);
+INSERT INTO lecture_activity (view_count, like_count, comment_count, student_id, lecture_id, lecture_activity_id, grade) VALUES (2, 2, 2, 2, 2, 2, 75);
+INSERT INTO lecture_activity (view_count, like_count, comment_count, student_id, lecture_id, lecture_activity_id, grade) VALUES (3, 3, 3, 3, 3, 3, 95);
 
 SELECT * FROM lecture_activity;
 
@@ -46,9 +46,9 @@ INSERT INTO subjects (name, teacher_id, lecture_id) VALUES ('dbis', 3, 3);
 SELECT * FROM subjects;
 
 
-INSERT INTO group_subjects (group_name, subject_name) VALUES ('KM-61', 'calculus');
-INSERT INTO group_subjects (group_name, subject_name) VALUES ('KM-62', 'diff equations');
-INSERT INTO group_subjects (group_name, subject_name) VALUES ('KM-63', 'dbis');
+INSERT INTO group_subjects (group_id, subject_name) VALUES (1, 'calculus');
+INSERT INTO group_subjects (group_id, subject_name) VALUES (2, 'diff equations');
+INSERT INTO group_subjects (group_id, subject_name) VALUES (3, 'dbis');
 
 SELECT * FROM group_subjects;
 

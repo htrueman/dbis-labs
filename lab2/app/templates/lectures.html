@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-  <h1 class="mt-4">Groups</h1>
+  <h1 class="mt-4">Lectures</h1>
   {% from "formhelpers.html" import render_field %}
   <form method="post" action="/lectures/">
     <dl>
@@ -15,7 +15,7 @@
   <br>
   <br>
   {% for key, value in lectures.items() %}
-    <p><a href="/groups/{{ key }}/">{{ value }}</a></p>
+    <p><a href="/lectures/{{ key }}/">{{ value }}</a></p>
   {% endfor %}
 </div>
 {% endblock %}
