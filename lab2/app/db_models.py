@@ -3,7 +3,7 @@ import os
 import sqlalchemy as sa
 from sqlalchemy import create_engine, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 engine = create_engine(os.environ['DATABASE_URL'])
 Base = declarative_base(engine)
@@ -57,3 +57,33 @@ class LectureActivity(Base):
     student_id = sa.Column(sa.BigInteger, ForeignKey('users.user_id'), nullable=False)
     lecture_id = sa.Column(sa.BigInteger, ForeignKey('lectures.lecture_id'), nullable=False)
     lecture_activity_id = sa.Column(sa.BigInteger, autoincrement=True, primary_key=True)
+
+
+class Subject(Base):
+    __tablename__ = 'subjects'
+
+    name = sa.Column(sa.Unicode(150), primary_key=True)
+    teacher_id = sa.Column(sa.BigInteger, ForeignKey('users.user_id'), nullable=False)
+    lecture_id = sa.Column(sa.BigInteger, ForeignKey('lectures.lecture_id'), nullable=False)
+
+
+class UniversitySubject(Base):
+    __tablename__ = 'university_subject'
+
+    id = sa.Column(sa.BigInteger, autoincrement=True, primary_key=True)
+
+    subject_name = sa.Column(sa.Unicode(250), ForeignKey('subjects.name'), nullable=False)
+    lecture_id = sa.Column(sa.BigInteger, ForeignKey('universities.id'), nullable=False)
+
+
+class University(Base):
+    __tablename__ = 'universities'
+
+    id = sa.Column(sa.BigInteger, autoincrement=True, primary_key=True)
+
+    name = sa.Column(sa.Unicode(250), nullable=False)
+    city = sa.Column(sa.Unicode(250), nullable=False)
+    count_staff = sa.Column(sa.Integer, nullable=False)
+    year = sa.Column(sa.Integer, nullable=False)
+
+    subjects = relationship("Subject", secondary="university_subject")

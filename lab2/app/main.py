@@ -3,8 +3,8 @@ import csv
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_bootstrap import Bootstrap
 
-from .forms import UserForm, GroupForm, LectureForm
-from .db_models import User, session, Group, Lecture, LectureActivity
+from .forms import UserForm, GroupForm, LectureForm, UniversityForm
+from .db_models import User, session, Group, Lecture, LectureActivity, University, Subject
 
 
 def create_app():
@@ -170,3 +170,66 @@ def get_plot_data_file():
             p_writer.writerow([activity.student_id, avg_grade])
 
     return jsonify()
+
+
+@app.route('/get/', methods=['get'])
+def add_test_universities():
+    s1 = Subject(
+        name='subject1',
+        teacher_id=2,
+        lecture_id=2
+    )
+    s2 = Subject(
+        name='subject2',
+        teacher_id=3,
+        lecture_id=3
+    )
+
+    u1 = University(
+        name='KPI',
+        city='Kyiv',
+        count_staff=500,
+        year=1900
+    )
+    u2 = University(
+        name='KNU',
+        city='Kyiv',
+        count_staff=1000,
+        year=1800
+    )
+    u3 = University(
+        name='LNU',
+        city='Lviv',
+        count_staff=700,
+        year=1901
+    )
+    u1.subjects.append(s1)
+    u1.subjects.append(s2)
+    u2.subjects.append(s2)
+    u3.subjects.append(s1)
+
+    session.add(u1)
+    session.add(u2)
+    session.add(u3)
+    session.commit()
+
+    return jsonify()
+
+
+@app.route('/new/', methods=['get'])
+def get_test_universities():
+    return render_template('new.html', univers=session.query(University).all())
+
+
+@app.route('/update/', methods=['post', 'get'])
+def update_universities():
+    university = session.query(University).all()[0]
+    form = UniversityForm(request.form, university)
+
+    if request.method == 'POST':
+        if form.validate():
+            form.populate_obj(university)
+            session.add(university)
+            session.commit()
+
+    return render_template('update.html', university=university, form=form)

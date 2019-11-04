@@ -87,3 +87,20 @@ CREATE TABLE IF NOT EXISTS teacher_subjects (
  FOREIGN KEY (user_id) REFERENCES users(user_id),
  FOREIGN KEY (subject_name) REFERENCES subjects(name)
 );
+
+create table if not exists university_subject (
+    id serial primary key,
+    subject_name varchar(150), 
+    lecture_id int,
+    
+    FOREIGN KEY (subject_name) REFERENCES subjects(name),
+    FOREIGN KEY (lecture_id) REFERENCES lectures(lecture_id)
+);
+
+create table if not exists universities (
+    id serial primary key,
+    name varchar(250),
+    city varchar(250),
+    count_staff integer,
+    year integer
+);
