@@ -18,7 +18,7 @@ class User(Base):
     type = sa.Column(sa.Unicode(20), nullable=False)
     date_registered = sa.Column(sa.Date(), nullable=False)
     user_id = sa.Column(sa.BigInteger, autoincrement=True, primary_key=True)
-    group_name = sa.Column(sa.Unicode(6), ForeignKey('groups.name'), nullable=False)
+    group_id = sa.Column(sa.Unicode(6), ForeignKey('groups.group_id'), nullable=False)
 
 
 class Group(Base):

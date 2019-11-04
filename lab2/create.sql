@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS groups (
- group_id integer primary key,
+ group_id serial primary key,
  name varchar(6)
 );
 

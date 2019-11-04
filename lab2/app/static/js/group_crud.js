@@ -13,7 +13,7 @@ $( "#update" ).click(function( event ) {
 });
 
 
-function deleteUser(id) {
+function deleteGroup(id) {
   $.ajax({
     type: 'delete',
     success: function(result) {

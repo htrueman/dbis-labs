@@ -66,7 +66,7 @@ def user(user_id):
 def groups():
     if request.method == 'GET':
         form = GroupForm()
-        return render_template('groups.html', form=form, groups={g.name: '' for g in session.query(Group).all()})
+        return render_template('groups.html', form=form, groups={g.group_id: g.name for g in session.query(Group).all()})
     else:
         group = Group()
         form = GroupForm(request.form)
@@ -76,14 +76,14 @@ def groups():
             session.commit()
         return render_template(
             'groups.html',
-            groups={g.name: '' for g in session.query(Group).all()},
+            groups={g.group_id: g.name for g in session.query(Group).all()},
             form=form
         )
 
 
-@app.route('/groups/<name>/', methods=['get', 'put', 'delete'])
-def group(name):
-    group = session.query(Group).filter_by(name=name).first()
+@app.route('/groups/<group_id>/', methods=['get', 'put', 'delete'])
+def group(group_id):
+    group = session.query(Group).filter_by(group_id=group_id).first()
     form = GroupForm(request.form, group)
     template_name = 'group.html'
 
@@ -95,7 +95,7 @@ def group(name):
         else:
             return jsonify(form.errors), 400
     elif request.method == 'DELETE':
-        group.delete()
+        session.delete(group)
         session.commit()
 
     return render_template(template_name, group=group, form=form)

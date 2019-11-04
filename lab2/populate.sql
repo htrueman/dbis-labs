@@ -1,6 +1,6 @@
-INSERT INTO groups (name, group_id) VALUES ('KM-61', 1);
-INSERT INTO groups (name, group_id) VALUES ('KM-62', 2);
-INSERT INTO groups (name, group_id) VALUES ('KM-63', 3);
+INSERT INTO groups (name) VALUES ('KM-61');
+INSERT INTO groups (name) VALUES ('KM-62');
+INSERT INTO groups (name) VALUES ('KM-63');
 
 SELECT * FROM groups;
 
