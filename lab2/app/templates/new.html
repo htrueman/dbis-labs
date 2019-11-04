@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">name</th>
+      <th scope="col">city</th>
+      <th scope="col">count staff</th>
+      <th scope="col">year</th>
+      <th scope="col">subjects</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in univers %}
+    <tr>
+      <th scope="row">{{ u.name }}</th>
+      <td>{{ u.city }}</td>
+      <td>{{ u.count_staff }}</td>
+      <td>{{ u.year }}</td>
+      <td> {% for s in u.subjects %}{{ s.name }} {% endfor %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
